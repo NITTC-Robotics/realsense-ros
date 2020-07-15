@@ -27,10 +27,11 @@ This is the Gazebo URDF model for the Intel RealSense D435 camera
       <!--<max_vel>0.01</max_vel>
       <min_depth>0</min_depth>-->
       <sensor name="${camera_name}color" type="camera">
+        <updateRate>30</updateRate>
         <camera name="${camera_name}">
-          <horizontal_fov>${69.4*deg_to_rad}</horizontal_fov>
+          <horizontal_fov>${90*deg_to_rad}</horizontal_fov>
           <image>
-            <width>1920</width>
+            <width>3840</width>
             <height>1080</height>
             <format>RGB_INT8</format>
           </image>
@@ -46,11 +47,11 @@ This is the Gazebo URDF model for the Intel RealSense D435 camera
         </camera>
         <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
         <alwaysOn>true</alwaysOn>
-        <updateRate>10</updateRate>
+        <updateRate>0.0</updateRate>
         <cameraName>${camera_name}</cameraName>
         <imageTopicName>image_raw</imageTopicName>
         <cameraInfoTopicName>camera_info</cameraInfoTopicName>
-        <frameName>camera_link</frameName>
+        <frameName>camera_optical_frame</frameName>
         <hackBaseline>0.07</hackBaseline>
         <distortionK1>0.0</distortionK1>
         <distortionK2>0.0</distortionK2>
@@ -60,15 +61,18 @@ This is the Gazebo URDF model for the Intel RealSense D435 camera
         </plugin>
       </sensor>
       <sensor name="${camera_name}depth" type="depth">
-        <always_on>1</always_on>
-        <visualize>1</visualize>
+        <update_rate>100</update_rate>
         <camera name="${camera_name}">
-          <horizontal_fov>${91.2*deg_to_rad}</horizontal_fov>
+          <pose>0 0 0 0 0 0</pose>
+          <horizontal_fov>${90*deg_to_rad}</horizontal_fov>
           <image>
-            <width>1280</width>
-            <height>720</height>
+            <width>3840</width>
+            <height>1080</height>
             <format>B8G8R8</format>
           </image>
+          <depth_camera>
+            <output>depths</output>
+          </depth_camera>
           <clip>
             <near>0.1</near>
             <far>100</far>
@@ -79,17 +83,20 @@ This is the Gazebo URDF model for the Intel RealSense D435 camera
             <stddev>0.100</stddev>
           </noise>
         </camera>
+
         <plugin name="${topics_ns}" filename="libgazebo_ros_openni_kinect.so">
+          <baseline>0.2</baseline>
           <alwaysOn>true</alwaysOn>
-          <updateRate>10</updateRate>
+          <updateRate>0.0</updateRate>
           <cameraName>${camera_name}_ir</cameraName>
-          <imageTopicName>/${camera_name}/depth/image_raw</imageTopicName>
-          <cameraInfoTopicName>/${camera_name}/depth/camera_info</cameraInfoTopicName>
+          <imageTopicName>/${camera_name}/color/image_raw</imageTopicName>
+          <cameraInfoTopicName>/${camera_name}/color/camera_info</cameraInfoTopicName>
           <depthImageTopicName>/${camera_name}/depth/image_raw</depthImageTopicName>
-          <depthImageInfoTopicName>/${camera_name}/depth/camera_info</depthImageInfoTopicName>
+          <depthImageCameraInfoTopicName>/${camera_name}/depth/camera_info</depthImageCameraInfoTopicName>
           <pointCloudTopicName>/${camera_name}/depth/points</pointCloudTopicName>
-          <frameName>camera_link</frameName>
-          <pointCloudCutoff>0.5</pointCloudCutoff>
+          <frameName>camera_depth_optical_frame</frameName>
+          <pointCloudCutoff>0.3</pointCloudCutoff>
+          <pointCloudCutoffMax>25.0</pointCloudCutoffMax>
           <distortionK1>0.00000001</distortionK1>
           <distortionK2>0.00000001</distortionK2>
           <distortionK3>0.00000001</distortionK3>
@@ -101,7 +108,6 @@ This is the Gazebo URDF model for the Intel RealSense D435 camera
           <focalLength>0</focalLength>
           <hackBaseline>0</hackBaseline>
         </plugin>
-        <pose>0 0 0 0 ${radians(-90)} ${radians(90)}</pose>
       </sensor>
     </gazebo>
 
