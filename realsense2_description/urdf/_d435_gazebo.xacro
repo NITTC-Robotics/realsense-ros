@@ -29,14 +29,14 @@ This is the Gazebo URDF model for the Intel RealSense D435 camera
       <sensor name="${camera_name}color" type="camera">
         <updateRate>30</updateRate>
         <camera name="${camera_name}">
-          <horizontal_fov>${90*deg_to_rad}</horizontal_fov>
+          <horizontal_fov>${69.4*deg_to_rad}</horizontal_fov>
           <image>
-            <width>3840</width>
+            <width>1920</width>
             <height>1080</height>
             <format>RGB_INT8</format>
           </image>
           <clip>
-            <near>0.1</near>
+            <near>0.2</near>
             <far>100</far>
           </clip>
           <noise>
@@ -61,21 +61,21 @@ This is the Gazebo URDF model for the Intel RealSense D435 camera
         </plugin>
       </sensor>
       <sensor name="${camera_name}depth" type="depth">
-        <update_rate>100</update_rate>
+        <update_rate>90</update_rate>
         <camera name="${camera_name}">
           <pose>0 0 0 0 0 0</pose>
-          <horizontal_fov>${90*deg_to_rad}</horizontal_fov>
+          <horizontal_fov>${91.2*deg_to_rad}</horizontal_fov>
           <image>
-            <width>3840</width>
-            <height>1080</height>
+            <width>1280</width>
+            <height>720</height>
             <format>B8G8R8</format>
           </image>
           <depth_camera>
             <output>depths</output>
           </depth_camera>
           <clip>
-            <near>0.1</near>
-            <far>100</far>
+            <near>0.2</near>
+            <far>10</far>
           </clip>
           <noise>
             <type>gaussian</type>
@@ -95,8 +95,8 @@ This is the Gazebo URDF model for the Intel RealSense D435 camera
           <depthImageCameraInfoTopicName>/${camera_name}/depth/camera_info</depthImageCameraInfoTopicName>
           <pointCloudTopicName>/${camera_name}/depth/points</pointCloudTopicName>
           <frameName>camera_depth_optical_frame</frameName>
-          <pointCloudCutoff>0.3</pointCloudCutoff>
-          <pointCloudCutoffMax>25.0</pointCloudCutoffMax>
+          <pointCloudCutoff>0.2</pointCloudCutoff>
+          <pointCloudCutoffMax>10.0</pointCloudCutoffMax>
           <distortionK1>0.00000001</distortionK1>
           <distortionK2>0.00000001</distortionK2>
           <distortionK3>0.00000001</distortionK3>
